@@ -1,3 +1,3 @@
 Feature: Practice Git commends
   Scenario: test
-    Given hello hellog
+    Given hello hello GIT
