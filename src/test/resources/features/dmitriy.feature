@@ -1,4 +1,4 @@
 Feature: Practice
 
   Scenario: Testing
-    Given I do something
+    Given I learn something
