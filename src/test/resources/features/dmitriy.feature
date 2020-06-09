@@ -1,4 +1,6 @@
 Feature: Practice
 
   Scenario: Testing
-    Given I learn something
+    Given I watch something
+    And I read something
+    Then I learn something
