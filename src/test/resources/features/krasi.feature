@@ -1,3 +1,4 @@
 Feature: Practice Git commands
+
   Scenario: test
-    Given ldfkjosajf
+    Given Test
