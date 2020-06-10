@@ -11,6 +11,3 @@ Feature: Login Scenarios
       |  email            | password | text   |
       | ask_instr@aol.com | 12345   |TEACHER  |
       |  test8@test.com   | 12345   | STUDENT |
-
-
-
