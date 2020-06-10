@@ -1,3 +1,3 @@
 Feature: Practice Git commands
   Scenario: test
-    Given sdjdj
+    Given sdjdj  vicc chahges new
