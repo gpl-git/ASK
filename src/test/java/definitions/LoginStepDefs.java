@@ -47,5 +47,4 @@ public class LoginStepDefs {
         assertThat(role.equals(text)).isTrue();
     }
 
-
 }
