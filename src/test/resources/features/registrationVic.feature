@@ -86,12 +86,13 @@ Feature: Registration scenarios
 
     Examples:
       | password | confirmpassword | passworderrormessage |
-      |       |           |    This field is required    |
-      |  1    |      1    | Should be at least 5 characters  |
-      |  12   |     12    | Should be at least 5 characters  |
-      |  @#   |     @#    | Should be at least 5 characters |
+      |        |           |    This field is required    |
+      |  1     |      1    | Should be at least 5 characters  |
+      |  12    |     12    | Should be at least 5 characters  |
+      |  @#    |     @#    | Should be at least 5 characters |
       |  @#$^  |    @#$^  | Should be at least 5 characters |
       |  123#  |    123#  | Should be at least 5 characters |
-      |  1234 |    1234   | Should be at least 5 characters |
-#      | 123456789012345678901234567890123| 123456789012345678901234567890123 |        |
- #     | 123456789012345678901234567890!@#| 123456789012345678901234567890!@# |        |
+      |  1234  |    1234   | Should be at least 5 characters |
+      |  12 34 |  12 34   | Whitespaces are not allowed |
+      | 123456789012345678901234567890123| 123456789012345678901234567890123 | Password should contain no more than 32 characters |
+      | 123456789012345678901234567890!@#| 123456789012345678901234567890!@# | Password should contain no more than 32 characters |

@@ -30,8 +30,11 @@ public class RegistrationVicStepdefs {
         String messageshouldbemore5 = getDriver().findElement(By.xpath("//div[@class='ng-tns-c9-6 ng-trigger ng-trigger-transitionMessages ng-star-inserted']//mat-error[@class='mat-error ng-star-inserted'][contains(text(),'"+passworderrormessage+"')]")).getText();
         assertThat(messageshouldbemore5.equals(passworderrormessage)).isTrue();
 
+        String whiteSpacesMessage = getDriver().findElement(By.xpath("//mat-error[contains(text(),'"+passworderrormessage+"')]")).getText();
+        assertThat(whiteSpacesMessage.equals(passworderrormessage)).isTrue();
 
-
+        String char32message = getDriver().findElement(By.xpath("//mat-error[contains(text(),'"+passworderrormessage+"')]")).getText();
+        assertThat(char32message.equals(passworderrormessage)).isTrue();
     }
 }
 
