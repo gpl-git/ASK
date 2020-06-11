@@ -5,15 +5,16 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.openqa.selenium.By;
+import org.testng.Assert;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.setRemoveAssertJRelatedElementsFromStackTrace;
 import static support.TestContext.getDriver;
 
 public class RegistrationStepDefsIrina {
 
     @When("I type {string} into First Name field")
     public void iTypeIntoFirstnameField(String firstName) {
-//        //input[@placeholder='firstName']"
         getDriver().findElement(By.xpath("//input[@formcontrolname='firstName']")).sendKeys("abc");
 
     }
@@ -47,6 +48,15 @@ public class RegistrationStepDefsIrina {
 
     }
 
+    @When("I do not type {string} into First Name field")
+    public void iDoNotTypeIntoFirstNameField(String firstNameFieldclen) {
+        ////*[contains(text(),'This field is required')]
+        // //*[contains(text(),'mat-error')]
+        String acctualError=getDriver().findElement(By.xpath("//*[contains(text(),'This field is required')]")).getText();
+        String expected_error="This field is required";
+        Assert.assertEquals(acctualError, expected_error);
+        System.out.println("Test is completed");
+        }
     }
 
 
