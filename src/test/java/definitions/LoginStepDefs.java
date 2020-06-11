@@ -48,68 +48,6 @@ public class LoginStepDefs {
     }
 
 
-    @And("I navigate to the Settings page")
-    public void iNavigateToTheSettingsPage() { getDriver().findElement(By.xpath("//*[contains(text(),'Settings')]")).click();
-    }
-
-
-
-    @And("I click Change Your Name button")
-    public void iClickChangeYourNameButton() {getDriver().findElement(By.xpath("//*[contains(text(),'Change Your Name')]")).click();
-    }
-
-    @Then("{string} is displayed")
-    public void isDisplayed(String arg0) {
-        getDriver().findElement(By.xpath("//*[contains(text(),'Change Your Name')]"));
-    }
-
-    @Then("I clear the field")
-    public void iClearTheField() {
-        getDriver().findElement(By.xpath("//*[@placeholder='Full Name']")).clear();
 
     }
 
-    @Then("I change Student name to {string}")
-    public void iChangeStudentNameTo(String name) {
-        getDriver().findElement(By.xpath("//*[@formcontrolname='name']")).sendKeys(name);
-        getDriver().findElement(By.xpath("//div[@class='mat-dialog-actions']//span[@class='mat-button-wrapper'][contains(text(),'Change')]")).click();
-        getDriver().findElement(By.xpath("//*[contains(text(),'" + name + "')]")).getText();
-        assertThat(name.equals(name)).isTrue();
-        System.out.println("You changed your student username to " + name + "!");
-    }
-
-    @And("I log out")
-    public void iLogOut() {
-        getDriver().findElement(By.xpath("//*[contains(text(),'Log Out')]")).click();
-    }
-
-
-    @And("I navigate to the User management page")
-    public void iNavigateToTheUserManagementPage() {
-        getDriver().findElement(By.xpath("//*[contains(text(),'Users Management')]")).click();
-    }
-
-    @Then("I click to {string} from mat-card menu")
-    public void iClickToFromMatCardMenu(String students) {
-        getDriver().findElement(By.xpath("//div[contains(text(),'Students')]")).click();
-
-    }
-
-
-
-    @And("I click to student {string}")
-    public void iClickToStudent(String number) {
-        getDriver().findElement(By.xpath("//a["+3+"]//mat-list-item[1]")).click();
-    }
-
-    @And("I click on options button")
-    public void iClickOnOptionsButton() {
-        getDriver().findElement(By.xpath("//*[@class='mat-button-wrapper']")).click();
-
-
-    }
-}
-
-
-//    getDriver().findElement(By.xpath("//div[@class='cdk-overlay-container']//button[1]")).click();
-//        getDriver().findElement(By.xpath("//*[@placeholder='Full Name']]")).clear();

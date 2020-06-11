@@ -36,8 +36,8 @@ public class RegistrationStepDefsIrina {
     }
 
     @Then("I click {string} button")
-    public void iClickButton(String button) {
-        getDriver().findElement(By.xpath("//span[contains(text(),'Register Me')]")).click();
+    public void iClickButton() {
+        getDriver().findElement(By.xpath("//span[contains(text(),'Change')]")).click();
     }
 
     @Then("text {string} displayed")
