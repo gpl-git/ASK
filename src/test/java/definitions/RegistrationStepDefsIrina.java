@@ -31,7 +31,7 @@ public class RegistrationStepDefsIrina {
 
     @And("I type {string} into confirm password field")
     public void iTypeIntoConfirmPasswordField(String confirmpassword) {
-        getDriver().findElement(By.xpath("//input[@formcontrolname='confirmPassword']")).sendKeys("12344");
+        getDriver().findElement(By.xpath("//input[@formcontrolname='confirmPassword']")).sendKeys(confirmpassword);
 
     }
 
