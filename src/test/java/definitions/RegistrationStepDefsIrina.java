@@ -15,24 +15,24 @@ public class RegistrationStepDefsIrina {
 
     @When("I type {string} into First Name field")
     public void iTypeIntoFirstnameField(String firstName) {
-        getDriver().findElement(By.xpath("//input[@formcontrolname='firstName']")).sendKeys("abc");
+        getDriver().findElement(By.xpath("//input[@formcontrolname='firstName']")).sendKeys(firstName);
 
     }
 
     @And("I type {string} into Last Name field")
     public void iTypeIntoLastnameField(String lastName) {
-        getDriver().findElement(By.xpath("//input[@formcontrolname='lastName']")).sendKeys("I");
+        getDriver().findElement(By.xpath("//input[@formcontrolname='lastName']")).sendKeys(lastName);
 
     }
 
     @And("I type {string} into group code field")
     public void iTypeIntoGroupCodeField(String groupcode) {
-        getDriver().findElement(By.xpath("//input[@formcontrolname='group']")).sendKeys("123");
+        getDriver().findElement(By.xpath("//input[@formcontrolname='group']")).sendKeys(groupcode);
     }
 
     @And("I type {string} into confirm password field")
     public void iTypeIntoConfirmPasswordField(String confirmpassword) {
-        getDriver().findElement(By.xpath("//input[@formcontrolname='confirmPassword']")).sendKeys("12344");
+        getDriver().findElement(By.xpath("//input[@formcontrolname='confirmPassword']")).sendKeys(confirmpassword);
 
     }
 
@@ -43,8 +43,8 @@ public class RegistrationStepDefsIrina {
 
     @Then("text {string} displayed")
     public void textDisplayed(String verificationmessage) {
-        String message=getDriver().findElement(By.xpath("//*[contains(text(),' 1.')]")).getText();
-        System.out.println("Message is displayed " + verificationmessage);
+        String message=getDriver().findElement(By.xpath("//h4[contains(text(),'You have been Registered.')]")).getText();
+       assertThat(message.equals(verificationmessage)).isTrue();
 
     }
 
@@ -57,7 +57,13 @@ public class RegistrationStepDefsIrina {
         Assert.assertEquals(acctualError, expected_error);
         System.out.println("Test is completed");
         }
+
+    @Then("error message {string} displayed")
+    public void errorMessageDisplayed(String errormessage) {
+        String message = getDriver().findElement(By.xpath("//mat-error[contains(text(),'Whitespaces are not allowed')]")).getText();
+        assertThat(message.equals(errormessage)).isTrue();
     }
+}
 
 
 
