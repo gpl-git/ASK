@@ -55,6 +55,7 @@ public class RegistrationStepDefsIrina {
         String acctualError=getDriver().findElement(By.xpath("//*[contains(text(),'This field is required')]")).getText();
         String expected_error="This field is required";
         Assert.assertEquals(acctualError, expected_error);
+        System.out.println("Test is completed");
         }
     }
 
