@@ -14,4 +14,3 @@ Feature: Quiz-Title Scenario
     And I click on Add Question button
     And I wait for 2 sec
 
-#UPDATE
