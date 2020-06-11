@@ -9,7 +9,7 @@ import org.openqa.selenium.WebElement;
 import static org.assertj.core.api.Assertions.assertThat;
 import static support.TestContext.getDriver;
 
-public class EvgenyStepDefs {
+public class MultChoiceQStepDefsEvgeny {
 
     @And("I click on the element by xPath {string}")
     public void iClickOnTheElementByXPath(String myXPath) {
