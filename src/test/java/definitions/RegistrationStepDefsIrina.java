@@ -26,7 +26,7 @@ public class RegistrationStepDefsIrina {
 
     @And("I type {string} into group code field")
     public void iTypeIntoGroupCodeField(String groupcode) {
-        getDriver().findElement(By.xpath("//input[@formcontrolname='group']")).sendKeys("123");
+        getDriver().findElement(By.xpath("//input[@formcontrolname='group']")).sendKeys(groupcode);
     }
 
     @And("I type {string} into confirm password field")
