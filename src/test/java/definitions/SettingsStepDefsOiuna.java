@@ -11,24 +11,15 @@ import static support.TestContext.getDriver;
 public class SettingsStepDefsOiuna {
     @Then("name {string} is displayed")
     public void nameIsDisplayed(String name) {
-        getDriver().findElement(By.xpath("//h3[contains(text(),'"+name+"')]")).isDisplayed();
+        String nametxt = getDriver().findElement(By.xpath("//h3[contains(text(),'"+name+"')]")).getText();
+        assertThat(nametxt.equals(name)).isTrue();
 
     }
 
-
-    @Then("button Change Your Name is displayed")
-    public void buttonChangeYourNameIsDisplayed() {
-        getDriver().findElement(By.xpath("//body//button[1]")).isDisplayed();
-    }
 
     @When("I click Change Your Name button")
     public void iClickChangeYourNameButton() {
         getDriver().findElement(By.xpath("//body//button[1]")).click();
-    }
-
-    @Then("pop-up box Change Your Name is displayed")
-    public void popUpBoxChangeYourNameIsDisplayed() {
-        getDriver().findElement(By.xpath("//form[@class='ng-pristine ng-valid ng-touched']")).isDisplayed();
     }
 
     @Then("I clear Full Name input field")
@@ -55,24 +46,14 @@ public class SettingsStepDefsOiuna {
 
     @When("I click {string} menu item")
     public void iClickMenuItem(String item) {
-        getDriver().findElement(By.xpath("//h5[contains(text(),'"+item+"')]")).click();
+        getDriver().findElement(By.xpath("//*[contains(text(),'"+item+"')]")).click();
 
     }
 
-
-    @Then("button Change Your Password is displayed")
-    public void buttonChangeYourPasswordIsDisplayed() {
-        getDriver().findElement(By.xpath("//body//button[2]")).isDisplayed();
-    }
 
     @When("I click Change Your Password button")
     public void iClickChangeYourPasswordButton() {
         getDriver().findElement(By.xpath("//body//button[2]")).click();
-    }
-
-    @Then("pop-up box Changing Password is displayed")
-    public void popUpBoxChangingPasswordIsDisplayed() {
-        getDriver().findElement(By.xpath("//h1[contains(text(),'Changing Password')]")).isDisplayed();
     }
 
     @When("I type {string} into Password input field")
@@ -90,25 +71,25 @@ public class SettingsStepDefsOiuna {
         getDriver().findElement(By.xpath("//input[@placeholder='Confirm New Password']")).sendKeys(newPassword);
     }
 
-    @Then("Settings page is displayed")
-    public void settingsPageIsDisplayed() {
-        getDriver().findElement(By.xpath("//h4[contains(text(),'Settings')]")).isDisplayed();
-    }
-
-
-    @Then("Confirmation window is displayed")
-    public void confirmationWindowIsDisplayed() {
-        getDriver().findElement(By.xpath("//h1[contains(text(),'Confirmation')]")).isDisplayed();
-
-    }
 
     @When("I click on Log out button")
     public void iClickOnLogOutButton() {
         getDriver().findElement(By.xpath("//button[@class='mat-button mat-warn']")).click();
     }
 
-    @Then("Login page is displayed")
-    public void loginPageIsDisplayed() {
-        getDriver().findElement(By.xpath("//button[@class='mat-raised-button mat-primary']")).isDisplayed();
+
+
+
+
+    @Then("{string} pop-up box is displayed")
+    public void popUpBoxIsDisplayed(String txt) {
+        String boxtitle = getDriver().findElement(By.xpath("//*[contains(text(),'"+txt+"')]")).getText();
+        assertThat(boxtitle.equals(txt)).isTrue();
+    }
+
+    @Then("{string} page is displayed")
+    public void pageIsDisplayed(String txt) {
+        String pagetitle = getDriver().findElement(By.xpath("//*[contains(text(),'"+txt+"')]")).getText();
+        assertThat(pagetitle.equals(txt)).isTrue();
     }
 }
