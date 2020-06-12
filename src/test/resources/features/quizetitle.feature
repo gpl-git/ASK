@@ -18,6 +18,7 @@ Feature: Quiz-Title Scenario
       | page    | email               | password | sec | input |
       | "login" | "ask_instr@aol.com" | "12345"  | 2   | "a1@" |
       | "login" | "ask_instr@aol.com" | "12345"  | 2   | "  " |
+      | "login" | "ask_instr@aol.com" | "12345"  | 2   | " 1 " |
 
 
 
