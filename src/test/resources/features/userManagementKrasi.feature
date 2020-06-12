@@ -59,11 +59,11 @@ Feature: User Management
     And I wait 1 sec
     And I click "Change"
     And I wait 2 sec
-    Then Student's name is changed
+    Then "<StudentName>" is changed to the "<NewName>"
     And I log out
     Examples:
-      | email            | password | text    |StudentName           |NewName               |menu              |
-      |ask_instr@aol.com | 12345    | TEACHER | Krasimira QA-student  |Krasimira Student    |Users Management  |
+      | email            | password | text    |StudentName       |NewName      |menu              |
+      |ask_instr@aol.com | 12345    | TEACHER |Krasimira Student |Krasimira QA | Users Management  |
 
 
 
@@ -88,8 +88,8 @@ Feature: User Management
     And I wait for 1 sec
     Then User's group is changed
     Examples:
-      | email            | password | text    |  StudentName         | NewGroup  |      menu        |
-      |ask_instr@aol.com | 12345    | TEACHER |Krasimira Student     |  123!!      |Users Management  |
+      | email            | password | text    |  StudentName   | NewGroup  |      menu        |
+      |ask_instr@aol.com | 12345    | TEACHER |Krasimira QA    |  123!!    |Users Management  |
 
 
 

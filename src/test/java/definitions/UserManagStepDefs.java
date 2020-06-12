@@ -35,9 +35,8 @@ public class UserManagStepDefs {
 
     @And("I click to student {string}")
     public void iClickToStudent(String StudentName) {
-        getDriver().findElement(By.xpath("//*[contains(text(),'"+StudentName+"')]")).click();
+        getDriver().findElement(By.xpath("//*[contains(text(),'" + StudentName + "')]")).click();
     }
-
 
 
     @And("I click on {string} button")
@@ -64,21 +63,11 @@ public class UserManagStepDefs {
     }
 
 
-    @Then("Student's name is changed")
-    public void studentSNameIsChanged(String StudentName,String NewName) {
-        getDriver().findElement(By.xpath("//div[@class='horizontal-group']")).getText();
-        assertThat(StudentName.equals(NewName));
-        System.out.println("You changed student username to " + NewName + "!");
-
-
-    }
-
     @Then("I change Student {string} to {string}")
-    public void iChangeStudentTo(String StudentName , String newName) {
-        getDriver().findElement(By.xpath("//*[@formcontrolname='" + StudentName  + "']")).sendKeys(newName);
+    public void iChangeStudentTo(String name, String newName) {
+        getDriver().findElement(By.xpath("//*[@formcontrolname='" + name + "']")).sendKeys(newName);
         getDriver().findElement(By.xpath("//div[@class='mat-dialog-actions']//span[@class='mat-button-wrapper'][contains(text(),'Change')]")).click();
     }
-
 
 
     @And("I click {string}")
@@ -125,7 +114,6 @@ public class UserManagStepDefs {
     }
 
 
-
     @And("I click the {string} link")
     public void iClickTheLink(String arg0) {
         getDriver().findElement(By.xpath("//body//button[3]")).click();
@@ -144,17 +132,27 @@ public class UserManagStepDefs {
 
     @Then("User's group is changed")
     public void userSGroupIsChanged(String NewGroup) {
-        getDriver().findElement(By.xpath("//td[contains(text(),'"+NewGroup+"')]")).getText();
+        getDriver().findElement(By.xpath("//td[contains(text(),'" + NewGroup + "')]")).getText();
         System.out.println("The student group is changed");
     }
-
 
 
     @Then("I change Student Name to the {string}")
     public void iChangeStudentNameToThe(String NewName) {
         getDriver().findElement(By.xpath("//*[@placeholder='Full Name']")).sendKeys(NewName);
     }
+
+
+    @Then("{string} is changed to the {string}")
+    public void isChangedToThe(String StudentName, String NewName) {
+        getDriver().findElement(By.xpath("//div[@class='horizontal-group']")).getText();
+        assertThat(StudentName.equals(NewName)).isFalse();
+        System.out.println("You changed student username to " + NewName + "!");
+
+    }
 }
+
+
 
 
 
