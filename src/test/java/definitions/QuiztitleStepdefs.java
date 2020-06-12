@@ -1,9 +1,11 @@
 package definitions;
 
+import com.google.inject.spi.Message;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import org.openqa.selenium.By;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static support.TestContext.getDriver;
 import org.testng.Assert;
 
@@ -11,7 +13,6 @@ public class QuiztitleStepdefs {
     @Then("I click Quizzes button")
     public void iClickQuizzesButton() {
         getDriver().findElement(By.xpath("//*[contains(text(),'Quizzes')]")).click();
-
 
 
     }
@@ -36,5 +37,10 @@ public class QuiztitleStepdefs {
         getDriver().findElement(By.xpath("//input[@formcontrolname='name']")).click();
     }
 
-    
+
+    @And("I should see message {string}")
+    public void iShouldSeeMessage(String message) {
+       String ErrorMessage = getDriver().findElement(By.xpath("//mat-error[@class='mat-error ng-star-inserted'] [contains(text(),'"+ message +"')]")).getText();
+       assertThat(ErrorMessage.contains(message)).isTrue();
+    }
 }
