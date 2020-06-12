@@ -6,6 +6,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 
+import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.assertThat;
 import static support.TestContext.getDriver;
 
@@ -31,8 +32,13 @@ public class MultChoiceQStepDefsEvgeny {
 
     @Then("I verify that User is not able to create a Quiz")
     public void iVerifyThatUserIsNotAbleToCreateAQuiz() {
-        getDriver().findElement(By.xpath("//div[contains(@class,'ng-tns-c9')]")).isDisplayed();
-        getDriver().findElement(By.xpath("//mat-error[contains(text(),'This field is required')]"));
+        String text = getDriver().findElement(By.xpath("//mat-error[contains(text(),'This field is required')]")).getText();
+        if (text.equalsIgnoreCase("This field is required")) {
+            System.out.println("This field is required message appears."); }
+        else {
+            System.out.println("This field is required message does not appear.");
+        }
+
         getDriver().switchTo().frame("//simple-snack-bar[contains(text(),'Quiz is not completed')]");
     }
 
@@ -75,8 +81,8 @@ public class MultChoiceQStepDefsEvgeny {
         } else System.out.println("No such field found.");
     }
 
-    @And("I choose {string} question as {string}")
-    public void iChooseQuestionAs(String questionNumber, String question) {
+    @And("I choose number of the question {string} as {string}")
+    public void iChoosenumberOfTheQuestionQuestionAs(String questionNumber, String question) {
 
         if (question.equalsIgnoreCase("textual")) {
             WebElement element = getDriver().findElement(By.xpath("//*[contains(text(),'Q"+questionNumber+"')]/../../..//*[contains(text(),'Textual')]"));
@@ -106,5 +112,10 @@ public class MultChoiceQStepDefsEvgeny {
     @And("I input {string} in to Question input field")
     public void iInputInToQuestionInputField(String input) {
         getDriver().findElement(By.xpath("//*[@placeholder='Question *']")).sendKeys(input);
+    }
+
+    @And("I check {string} answer as correct")
+    public void iCheckAnswerAsCorrect(String checkboxNumb) {
+        getDriver().findElement(By.xpath("(//mat-checkbox)["+checkboxNumb+"]")).click();
     }
 }
