@@ -1,4 +1,4 @@
-Feature: Multiple Choice Question - Text Scenarios. Test Set 364, Test Cases TP-365, TP-366, TP-367, TP-368
+Feature: Multiple Choice Question - Text Scenarios. Test Set 364, Test Cases TP-365, TP-366, TP-367, TP-368, TP-369.
   Background:
     Given I open "login" page
     And I type "ask_instr@aol.com" into email field
@@ -31,7 +31,7 @@ Feature: Multiple Choice Question - Text Scenarios. Test Set 364, Test Cases TP-
 
   Scenario Outline: Verify that Multiple Choice Question - Text field doesn't accept space only TP-368, 1001 Alphanumeric & Special characters TP-369, Text field can't be empty TP-367
     And I input <input> in to Question input field
-    And I wait for 3 sec
+    And I wait for 1 sec
     And I input "AAA" in to the answer Option "1" field
     And I input "BBB" in to the answer Option "2" field
     And I Include Other text area option in "1" question

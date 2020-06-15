@@ -6,8 +6,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 
-import static org.assertj.core.api.Assertions.as;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 import static support.TestContext.getDriver;
 
 public class MultChoiceQStepDefsEvgeny {
@@ -25,7 +24,7 @@ public class MultChoiceQStepDefsEvgeny {
     @Then("I verify that User is able to create a {string} Quiz and Message - You created new Quiz - appears")
     public void iVerifyThatUserIsAbleToCreateAQuizAndMessageYouCreatedNewQuizAppears(String quizeName) {
         assertThat(getDriver().findElement(By.xpath("//mat-panel-title[contains(text()," + quizeName + ")]")).isDisplayed());
-        System.out.println("Quize was created.");
+        System.out.println("Quiz was created.");
         assertThat(getDriver().findElement(By.xpath("//*[contains(text(),'You created new Quiz')]")).isDisplayed());
         System.out.println("Message \"You created new Quiz\" appears.");
     }
@@ -33,14 +32,8 @@ public class MultChoiceQStepDefsEvgeny {
     @Then("I verify that User is not able to create a Quiz")
     public void iVerifyThatUserIsNotAbleToCreateAQuiz() {
         String text = getDriver().findElement(By.xpath("//mat-error[contains(text(),'This field is required')]")).getText();
-        if (text.equalsIgnoreCase("This field is required")) {
-            System.out.println("This field is required message appears."); }
-        else {
-            System.out.println("This field is required message does not appear.");
-        }
-
-        getDriver().switchTo().frame("//simple-snack-bar[contains(text(),'Quiz is not completed')]");
-    }
+         assertThat(text.equalsIgnoreCase("This field is required")).isTrue();
+         System.out.println("\"This field is required\" message appears."); }
 
     @And("I click on the {string} menu item")
     public void iClickOnTheMenuItem(String item) {
@@ -112,10 +105,24 @@ public class MultChoiceQStepDefsEvgeny {
     @And("I input {string} in to Question input field")
     public void iInputInToQuestionInputField(String input) {
         getDriver().findElement(By.xpath("//*[@placeholder='Question *']")).sendKeys(input);
-    }
+        int countCharacters = 0;
+        int y = 1000;
+        for(int i = 0; i < input.length(); i++) {
+            countCharacters++; }
+        if (countCharacters>y){
+            System.out.println("Input is more than 1000 characters.");  }
+        else if(countCharacters<1){
+            System.out.println("Input contains no characters."); }
+        else if(input.equals(" ")) {
+            System.out.println("Input contains white space only.");        }
+        else {
+            System.out.println("Input is valid");
+        }
+      }
 
     @And("I check {string} answer as correct")
     public void iCheckAnswerAsCorrect(String checkboxNumb) {
         getDriver().findElement(By.xpath("(//mat-checkbox)["+checkboxNumb+"]")).click();
     }
 }
+
