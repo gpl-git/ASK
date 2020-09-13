@@ -4,48 +4,81 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import org.openqa.selenium.By;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import pages.Home;
+import pages.Login;
+import pages.Register;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static support.TestContext.getDriver;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class LoginStepDefs {
-    @Given("I open {string} page")
-    public void iOpenPage(String page) {
-        if (page.equals("login")) {
-            getDriver().get("http://ask-qa.portnov.com/#/login");
-        }else if (page.equals("registration")){
-            getDriver().get("http://ask-qa.portnov.com/#/registration");
-        }else {
-            System.out.println("Unsupported site");
+    public String pageURL = "http://ask-qa.portnov.com/#/";
+    @Given("I navigate to {string} page")
+    public void iNavigateToPage(String site) {
+        switch (site) {
+            case "google":
+                getDriver().get("https://www.google.com/");
+                break;
+            case "ask":
+                getDriver().get("http://ask-qa.portnov.com/#/login");
+                break;
+            case "ask_prod":
+                getDriver().get("http://ask.portnov.com/#/login");
+                break;
+            case "quote":
+                getDriver().get("https://skryabin.com/market/quote.html");
+                break;
+            default:
+                System.out.println("Unsupported site");
         }
     }
 
-    @And("I wait for {int} sec")
-    public void iWaitForSec(int sec) throws InterruptedException {
-        Thread.sleep(sec*1000);
+    @And("I login as a teacher")
+    public void iLoginAsATeacher() {
+        Login login = new Login();
+        login.signIn("ask_instr@aol.com", "12345");
     }
 
-    @When("I type {string} into email field")
-    public void iTypeIntoEmailField(String email) {
-        getDriver().findElement(By.xpath("//*[@formcontrolname='email']")).sendKeys(email);
+    @And("I go to Register page")
+    public void iGoToRegisterPage() {
+        new Login().registerNow();
+        assertThat(getDriver().getCurrentUrl().contains("registration")).isTrue();
     }
 
-    @And("I type {string} into password field")
-    public void iTypeIntoPasswordField(String password) {
-        getDriver().findElement(By.xpath("//*[@formcontrolname='password']")).sendKeys(password);
+    @And("I return to Login Page")
+    public void iReturnToLoginPage() {
+        new Register().goBackToLogin();
+        assertThat(getDriver().getCurrentUrl().contains("login")).isTrue();
     }
 
-    @When("I click SignIn button")
-    public void iClickSignInButton() {
-        getDriver().findElement(By.xpath("//*[@type='submit']")).click();
-    }
-
-    @Then("text {string} is displayed")
-    public void textIsDisplayed(String text) {
-        String role = getDriver().findElement(By.xpath("//p[contains(text(),'"+text+"')]")).getText();
-        assertThat(role.equals(text)).isTrue();
+    @Then("I logout")
+    public void iLogout() throws InterruptedException {
+        new Home().logOut();
     }
 
 
+    @Then("I verify user role as {string}")
+    public void iVerifyUserRoleAs(String userRole) {
+        assertThat(new Login().getUserRole().contains(userRole));
+    }
+
+    @When("I login as a {string}")
+    public void iLoginAsA(String userRole) {
+        Login login = new Login();
+        if (userRole.equals("teacher")) {
+            login.signIn("ask_instr@aol.com", "12345");
+        } else if (userRole.equals("student")) {
+            login.signIn("test@abc.com", "12345");
+        } else {
+            System.out.println("User " + userRole + " is not authorized");
+        }
+    }
+
+    @Then("I verify current page {string}")
+    public void iVerifyCurrentPage(String page) {
+        new WebDriverWait(getDriver(), 5).until(ExpectedConditions.urlContains(page));
+        assertThat(getDriver().getCurrentUrl().contains(page)).isTrue();
+    }
 }
