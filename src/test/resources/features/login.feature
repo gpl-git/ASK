@@ -1,16 +1,22 @@
 Feature: Login Scenarios
-  Background:
-    Given I open "login" page
-  Scenario Outline: Login - Happy Path
-    When I type "<email>" into email field
-    And I type "<password>" into password field
-    When I click SignIn button
-    And I wait for 1 sec
-    Then text "<text>" is displayed
+
+  Scenario Outline: Login Happy Path
+    Given I navigate to <site> page
+    When I login as a <userRole>
+    Then I verify user role as <userRole1>
     Examples:
-      |  email            | password | text   |
-      | ask_instr@aol.com | 12345   |TEACHER  |
-      |  test8@test.com   | 12345   | STUDENT |
+      | site  | userRole  |  userRole1 |
+      | "ask" | "teacher" |  "TEACHER" |
+      | "ask" | "student" |  "STUDENT" |
 
+  Scenario: New User Login - Return to Login Page
+    Given I navigate to "ask" page
+    When I go to Register page
+    And I return to Login Page
 
+  Scenario: Login - Logout
+    Given I navigate to "ask" page
+    When I login as a "teacher"
+    And I logout
+    Then I verify current page "login"
 
