@@ -10,6 +10,8 @@ import pages.Home;
 import pages.Login;
 import pages.Register;
 
+import java.util.EventObject;
+
 import static support.TestContext.getDriver;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -61,7 +63,7 @@ public class LoginStepDefs {
 
     @Then("I verify user role as {string}")
     public void iVerifyUserRoleAs(String userRole) {
-        assertThat(new Login().getUserRole().contains(userRole));
+        assertThat(new Home().getUserRole().contains(userRole)).isTrue();
     }
 
     @When("I login as a {string}")
@@ -80,5 +82,34 @@ public class LoginStepDefs {
     public void iVerifyCurrentPage(String page) {
         new WebDriverWait(getDriver(), 5).until(ExpectedConditions.urlContains(page));
         assertThat(getDriver().getCurrentUrl().contains(page)).isTrue();
+    }
+
+       @When("I login with {string} and {string} as {string}")
+    public void iLoginWithAndAs(String email, String password, String userRole) {
+        Login login = new Login();
+        login.enterEmail(email);
+        login.enterPassword(password);
+        login.clickSignIn();
+
+
+
+    }
+
+    @When("I login with {string} and {string}")
+    public void iLoginWithAnd(String email, String password) {
+        Login login = new Login();
+        login.enterEmail(email);
+        login.enterPassword(password);
+        login.clickSignIn();
+    }
+
+    @Then("login error {string} should be displayed")
+    public void loginErrorShouldBeDisplayed(String message) {
+        new Login().checkError(message);
+    }
+
+    @Then("I verify authentication error message {string}")
+    public void iVerifyAuthenticationErrorMessage(String message) {
+        assertThat(new Login().getAuthenticationErrorMessage().contains(message)).isTrue();
     }
 }

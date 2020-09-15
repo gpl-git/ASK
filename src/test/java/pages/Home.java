@@ -30,6 +30,8 @@ public class Home extends Page {
     private WebElement btnLogout;
     @FindBy(xpath = "//span[contains(text(),'Create New Quiz')]")
     private WebElement btnCreateNewQuiz;
+    @FindBy(xpath = "//div[@class='info']")
+    private WebElement info;
 
     public void logOut() throws InterruptedException {
         new WebDriverWait(getDriver(), 5).until(ExpectedConditions.elementToBeClickable(logOut));
@@ -73,6 +75,14 @@ public class Home extends Page {
                 break;
         }
     }
+
+    public String getUserRole() {
+        String infoText;
+        new WebDriverWait(getDriver(), 5).until(ExpectedConditions.visibilityOf(info));
+        infoText = info.getText();
+        return infoText;
+    }
+
 }
 
 
