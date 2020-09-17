@@ -6,7 +6,7 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import pages.Home;
+import pages.TeacherHome;
 import pages.Login;
 import pages.Register;
 
@@ -55,13 +55,13 @@ public class LoginStepDefs {
 
     @Then("I logout")
     public void iLogout() throws InterruptedException {
-        new Home().logOut();
+        new TeacherHome().logOut();
     }
 
 
     @Then("I verify user role as {string}")
     public void iVerifyUserRoleAs(String userRole) {
-        assertThat(new Login().getUserRole().contains(userRole));
+        assertThat(new TeacherHome().getUserRole().contains(userRole)).isTrue();
     }
 
     @When("I login as a {string}")
@@ -70,7 +70,7 @@ public class LoginStepDefs {
         if (userRole.equals("teacher")) {
             login.signIn("ask_instr@aol.com", "12345");
         } else if (userRole.equals("student")) {
-            login.signIn("test@abc.com", "12345");
+            login.signIn("test1@test.com", "12345");
         } else {
             System.out.println("User " + userRole + " is not authorized");
         }
@@ -80,5 +80,34 @@ public class LoginStepDefs {
     public void iVerifyCurrentPage(String page) {
         new WebDriverWait(getDriver(), 5).until(ExpectedConditions.urlContains(page));
         assertThat(getDriver().getCurrentUrl().contains(page)).isTrue();
+    }
+
+       @When("I login with {string} and {string} as {string}")
+    public void iLoginWithAndAs(String email, String password, String userRole) {
+        Login login = new Login();
+        login.enterEmail(email);
+        login.enterPassword(password);
+        login.clickSignIn();
+
+
+
+    }
+
+    @When("I login with {string} and {string}")
+    public void iLoginWithAnd(String email, String password) {
+        Login login = new Login();
+        login.enterEmail(email);
+        login.enterPassword(password);
+        login.clickSignIn();
+    }
+
+    @Then("login error {string} should be displayed")
+    public void loginErrorShouldBeDisplayed(String message) {
+        new Login().checkError(message);
+    }
+
+    @Then("I verify authentication error message {string}")
+    public void iVerifyAuthenticationErrorMessage(String message) {
+        assertThat(new Login().getAuthenticationErrorMessage().contains(message)).isTrue();
     }
 }
