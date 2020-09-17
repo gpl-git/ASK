@@ -13,6 +13,7 @@ Feature: Login Scenarios
     Given I navigate to "ask" page
     When I go to Register page
     And I return to Login Page
+    Then I verify current page "login"
 
   Scenario: Login - Logout
     Given I navigate to "ask" page

@@ -6,11 +6,9 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import pages.Home;
+import pages.TeacherHome;
 import pages.Login;
 import pages.Register;
-
-import java.util.EventObject;
 
 import static support.TestContext.getDriver;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -57,13 +55,13 @@ public class LoginStepDefs {
 
     @Then("I logout")
     public void iLogout() throws InterruptedException {
-        new Home().logOut();
+        new TeacherHome().logOut();
     }
 
 
     @Then("I verify user role as {string}")
     public void iVerifyUserRoleAs(String userRole) {
-        assertThat(new Home().getUserRole().contains(userRole)).isTrue();
+        assertThat(new TeacherHome().getUserRole().contains(userRole)).isTrue();
     }
 
     @When("I login as a {string}")
@@ -72,7 +70,7 @@ public class LoginStepDefs {
         if (userRole.equals("teacher")) {
             login.signIn("ask_instr@aol.com", "12345");
         } else if (userRole.equals("student")) {
-            login.signIn("test@abc.com", "12345");
+            login.signIn("test1@test.com", "12345");
         } else {
             System.out.println("User " + userRole + " is not authorized");
         }
