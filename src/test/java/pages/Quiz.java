@@ -1,6 +1,7 @@
 package pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
@@ -55,13 +56,23 @@ public class Quiz extends TeacherHome {
     private WebElement confirmNo;
     @FindBy(xpath = "//mat-panel-title")
     private WebElement questionTitle;
-    @FindBy(xpath ="//span[contains(text(),'Preview')]" )
+    @FindBy(xpath = "//span[contains(text(),'Preview')]")
     private WebElement previewQuiz;
-    @FindBy(xpath ="//span[contains(text(),'Save')]" )
+    @FindBy(xpath = "//span[contains(text(),'Save')]")
     private WebElement saveQuiz;
 
-    @FindBy(xpath =  "//mat-panel-description")
+    @FindBy(xpath = "//ac-modal-confirmation//span[text()='Delete']")
+    private WebElement confirmDeleteBtn;
+
+    @FindBy(xpath = "//span[@class='bold']/../../div")
+    private WebElement checkBoxShowStopper;
+    @FindBy(xpath = "//*[contains(@class,'choice-error')]")
+    private WebElement choiceError;
+
+
+    @FindBy(xpath = "//mat-panel-description")
     private WebElement pointsDescription;
+
     public void addQuestion() {
         addQuestion.click();
     }
@@ -186,8 +197,7 @@ public class Quiz extends TeacherHome {
                 act.build().perform();
                 break;
         }
-        assertThat(getPointsPossible().contains(Integer.toString(points))).isTrue();
-        assertThat(getPointsDescription().contains(Integer.toString(points))).isTrue();
+
 
     }
 
@@ -195,17 +205,18 @@ public class Quiz extends TeacherHome {
         return labelPoints.getText();
     }
 
-    public String getPointsDescription(){
-             return pointsDescription.getText();
+    public String getPointsDescription() {
+        return pointsDescription.getText();
     }
+
     public void addTextualQuestions(int number, String text) throws InterruptedException {
         for (int i = 1; i <= number; i++) {
             new WebDriverWait(getDriver(), 10).until(ExpectedConditions.elementToBeClickable(addQuestion));
             addQuestion.click();
             assertThat(questionTitle.getText().contains("Q1: new empty question"));
             Thread.sleep(2000);
-            getDriver().findElement(By.xpath("//*[contains(text(),'Q"+i+"')]/../../..//*[contains(text(),'Textual')]")).click();
-            String xpath = "//*[contains(text(),'Q"+i+"')]/../../..//*[@placeholder='Question *']";
+            getDriver().findElement(By.xpath("//*[contains(text(),'Q" + i + "')]/../../..//*[contains(text(),'Textual')]")).click();
+            String xpath = "//*[contains(text(),'Q" + i + "')]/../../..//*[@placeholder='Question *']";
             getDriver().findElement(By.xpath(xpath)).sendKeys("Test");
             assertThat(questionHeader.getText().contains(text));
             assertThat(questionTitle.getText().contains(text));
@@ -215,8 +226,8 @@ public class Quiz extends TeacherHome {
         }
     }
 
-    public void clickQuizButton(String btnName){
-        switch (btnName){
+    public void clickQuizButton(String btnName) {
+        switch (btnName) {
             case "Save":
                 saveQuiz.click();
                 break;
@@ -231,25 +242,71 @@ public class Quiz extends TeacherHome {
         }
     }
 
-    public void clickQuizTitle(String title){
-        getDriver().findElement(By.xpath("//mat-panel-title[contains(text(),'"+title+"')]")).click();
+    public void clickQuizTitle(String title) {
+        getDriver().findElement(By.xpath("//mat-panel-title[contains(text(),'" + title + "')]")).click();
 
     }
 
-    public void checkQuizQuestionsNumber(String title, int num){
-        String quizTitleAndDescription = getDriver().findElement(By.xpath("//mat-panel-title[contains(text(),'"+title+"')]/..")).getText();
+    public String checkQuizQuestionsNumber(String title, int num) {
+        new WebDriverWait(getDriver(), 5).until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath("//span[@class='mat-content']/mat-panel-title[contains(text(),'"+title+"')]/..")));
+        String quizTitleAndDescription = getDriver().findElement(By.xpath("//span[@class='mat-content']/mat-panel-title[contains(text(),'"+title+"')]/..")).getText();
         System.out.println(quizTitleAndDescription);
-        assertThat(quizTitleAndDescription.contains(Integer.toString(num)+ " Question(s)")).isTrue();
+        return quizTitleAndDescription;
 
     }
-    public void deleteQuiz(String quizTitle){
-        new WebDriverWait(getDriver(),5).until(ExpectedConditions.elementToBeClickable(By.xpath("//mat-panel-title[contains(text(),'"+quizTitle+"')]/../../..//span[contains(text(),'Delete')]")));
-        getDriver().findElement(By.xpath("//mat-panel-title[contains(text(),'"+quizTitle+"')]/../../..//span[contains(text(),'Delete')]")).click();
-        new WebDriverWait(getDriver(),5).until(ExpectedConditions.elementToBeClickable(By.xpath("//ac-modal-confirmation//button/span[text()='Delete']")));
-        getDriver().findElement(By.xpath("//ac-modal-confirmation//button/span[text()='Delete']")).click();
 
+    public void deleteQuiz(String quizTitle) throws InterruptedException {
+        new WebDriverWait(getDriver(), 5).until(ExpectedConditions.elementToBeClickable(By.xpath("//mat-panel-title[contains(text(),'" + quizTitle + "')]/../../..//span[contains(text(),'Delete')]")));
+        getDriver().findElement(By.xpath("//mat-panel-title[contains(text(),'" + quizTitle + "')]/../../..//span[contains(text(),'Delete')]")).click();
 
+        new WebDriverWait(getDriver(), 5).until(ExpectedConditions.elementToBeClickable(confirmDeleteBtn));
+        confirmDeleteBtn.click();
+
+    }
+
+    public void addQuestionTitle(String text, String question, String option) {
+        String xpath = "//*[contains(text(),'" + question + "')]/../../..//*[@placeholder='" + option + "']";
+        getDriver().findElement(By.xpath(xpath)).sendKeys(text);
+    }
+
+    public void selectRadioButtonCorrectOption(String option, String question) {
+        String xpath = "//*[@placeholder='" + option + "']/../../../../..//*[@class='mat-radio-inner-circle']";
+        WebElement correctRadio = getDriver().findElement(By.xpath(xpath));
+        JavascriptExecutor executor = (JavascriptExecutor) getDriver();
+        executor.executeScript("arguments[0].click();", correctRadio);
+
+    }
+
+    public void addOption(int num, String question) {
+        String btnAddOption = "//*[contains(text(),'" + question + "')]/../../..//*[contains(text(), 'Add Option')]";
+        for (int i = 3; i <= num + 2; i++) {
+            getDriver().findElement(By.xpath(btnAddOption)).click();
+            String xpath = "//*[contains(text(),'Q1')]/../../..//*[@placeholder='Option " + i + "*']";
+            getDriver().findElement(By.xpath(xpath)).sendKeys("Test Option" + i);
+        }
+
+    }
+
+    public void checkShowStopper() {
+        checkBoxShowStopper.click();
+    }
+
+    public String getQuestionTitle() {
+        return questionTitle.getText();
+    }
+    public void checkCheckBoxCorrectOption(String option, String question) {
+        String xpath = "//*[@placeholder='"+option+"']/../../../../../mat-checkbox";
+        WebElement correctCheckBox = getDriver().findElement(By.xpath(xpath));
+        correctCheckBox.click();
+//        JavascriptExecutor executor = (JavascriptExecutor) getDriver();
+//        executor.executeScript("arguments[0].click();", correctCheckBox);
+
+    }
+    public String getChoiceError(){
+        return choiceError.getText();
     }
 
 }
+
+
 

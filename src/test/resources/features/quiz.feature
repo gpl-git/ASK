@@ -7,9 +7,9 @@ Feature: Quiz Scenarios
     And I create a quiz
     When I type "Test Quiz" as the title
     And I add a textual question
-    Then I set and verify points possible equal to 10
-#    And I wait for 3 sec
-#    And I delete the question
+    Then I set and verify points possible equal to 3
+    And I wait for 3 sec
+    And I delete the question
 
   Scenario: Create quiz - single choice question
     Given I navigate to "ask" page
@@ -52,13 +52,13 @@ Feature: Quiz Scenarios
     When I login as a "teacher"
     And I go to "Quizzes"
     And I create a quiz
-    When I type "Test Quiz" as the title
-    And I add 3 textual questions
+    When I type "Test Quiz_Number of Questions" as the title
+    And I add 10 textual questions
     When I click "Save" button
     And I wait for 1 sec
-    When I select "Test Quiz" from the list of quizzes
-    Then I validate that quiz "Test Quiz" has 3 questions
-    And I delete quiz "Test Quiz"
+    When I select "Test Quiz_Number of Questions" from the list of quizzes
+    Then I validate that quiz "Test Quiz_Number of Questions" has 10 questions
+    And I delete quiz "Test Quiz_Number of Questions"
 
 
 

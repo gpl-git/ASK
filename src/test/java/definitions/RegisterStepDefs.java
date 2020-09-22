@@ -10,6 +10,7 @@ import pages.Register;
 
 import java.awt.*;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static support.TestContext.getDriver;
 
 public class RegisterStepDefs {
@@ -20,7 +21,8 @@ public class RegisterStepDefs {
 
     @Then("I verify that registration is complete")
     public void iVerifyThatRegistrationIsComplete() {
-        new Register().confirmRegistration();
+        assertThat(new Register().getconfirmRegistration().contains("You have been Registered.")).isTrue();
+
     }
 
     @When("I type {string} into first name field")
