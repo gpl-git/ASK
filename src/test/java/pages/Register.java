@@ -106,13 +106,13 @@ public class Register extends Page {
         btnRegisterMe.click();
     }
 
-        public void confirmRegistration() {
+        public String getconfirmRegistration() {
             new WebDriverWait(getDriver(), 5).until(ExpectedConditions.visibilityOf(confirmationCard));
-            assertThat(confirmationCard.getText().contains("You have been Registered.")).isTrue();
+            return confirmationCard.getText();
         }
 
-    public void confirmErrorMessage(String message) {
-        assertThat(registrationError.getText().contains(message)).isTrue();
+    public String getErrorMessage() {
+        return registrationError.getText();
 
     }
 

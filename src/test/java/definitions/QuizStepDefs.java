@@ -35,12 +35,6 @@ public class QuizStepDefs {
         new Quiz().enterQuizTitle(title);
     }
 
-    @Then("I validate quiz title error message is not displayed")
-    public void iValidateQuizTitleErrorMessageIsNotDisplayed() {
-        Quiz quiz = new Quiz();
-        assertThat(quiz.isTitleErrorMessageDisplayed()).isFalse();
-    }
-
     @When("I clean title field")
     public void iCleanTitleField() {
         new Quiz().clearTitleField();
@@ -65,6 +59,8 @@ public class QuizStepDefs {
         System.out.println("points: " + getDriver().findElement(By.xpath("//h2")).getText());
         System.out.println("new points: " + quiz.getPointsPossible());
         System.out.println("points displayed: " + quiz.getPointsDescription());
+        assertThat(quiz.getPointsPossible().contains(Integer.toString(points))).isTrue();
+        assertThat(quiz.getPointsDescription().contains(Integer.toString(points))).isTrue();
     }
 
     @And("I delete the question")
@@ -114,19 +110,23 @@ public class QuizStepDefs {
 
     @Then("I select {string} from the list of quizzes")
     public void iSelectFromTheListOfQuizzes(String quiz) {
-//        new WebDriverWait(getDriver(), 10).until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath("//mat-panel-title")));
+        String xpath = " //mat-panel-title[contains(text(),'"+quiz+"')]";
+        new WebDriverWait(getDriver(), 10).until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(xpath)));
         new Quiz().clickQuizTitle(quiz);
 
     }
 
     @Then("I validate that quiz {string} has {int} questions")
     public void iValidateThatQuizHasQuestions(String quizTitle, int numQuestions) {
-        new Quiz().checkQuizQuestionsNumber(quizTitle, numQuestions);
+        Quiz quiz = new Quiz();
+       quiz.checkQuizQuestionsNumber(quizTitle, numQuestions);
+       assertThat( quiz.checkQuizQuestionsNumber(quizTitle, numQuestions).contains(numQuestions + " Question(s)")).isTrue();
+
 
     }
 
     @And("I delete quiz {string}")
-    public void iDeleteQuiz(String quizTitle) {
+    public void iDeleteQuiz(String quizTitle) throws InterruptedException {
         new Quiz().deleteQuiz(quizTitle);
     }
 }
